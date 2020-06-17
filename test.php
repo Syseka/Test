@@ -107,35 +107,23 @@ while ($n < $countOfPosts)
 //Получение данных и зформы ответа
 if ($_POST['btn'] and $_POST[$n-1])
 	{
-//$addex = 1;
 
-	$postid = $_POST['btn']+0; 
+		$postid = $_POST['btn']; 
 //Оргинальный id поста, пердается при нажатии кнопки "Ответ"
-//+0, так как изначально подается строка, вместо целого числа
-	$login = $_SESSION['login'];
+		$login = $_SESSION['login'];
 //логин из сессии для записи комментируещего
-	$mess = $_POST[$n-1];
+		$mess = $_POST[$n-1];
 //Текст сообщения
 
-
-		var_dump ($postid); print "<br>";
-		var_dump ($login); print "<br>";
-		var_dump ($mess); print "<br>";
-//Вардампы отображаются с введенными данными и нужными типами
-
-//эта часть не срабатывает:
-		$addcomm = $db("
+		$addcomm = $db->prepare("
 		INSERT INTO `testcom`
 		(`idop`, `comname`, `message`) 
 		VALUES (?, ?, ?)");
-var_dump ($addcomm); print "<br>";
 		$addcomm->BindParam(1, $postid);
 		$addcomm->BindParam(2, $login);
 		$addcomm->BindParam(3, $mess);
-var_dump ($addcomm); print "<br>";
 		$addex = $addcomm->execute();
-		
-$addex ? print "Yes" : print "No";
+
 		header('Location: test.php');
 		exit;
 	}
